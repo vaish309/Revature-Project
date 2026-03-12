@@ -1,0 +1,82 @@
+<div class="notify-wrapper">
+
+  <button class="notify-trigger" (click)="toggleDropdown()">
+    <span class="notify-icon">🔔</span>
+
+    @if (unreadCount > 0) {
+      <span class="notify-count">
+        {{ unreadCount > 99 ? '99+' : unreadCount }}
+      </span>
+    }
+  </button>
+
+  @if (showDropdown) {
+
+    <div class="notify-panel">
+
+      <!-- Header -->
+      <div class="notify-header">
+        <h3>Notifications</h3>
+
+        @if (unreadCount > 0) {
+          <button (click)="markAllAsRead()" class="notify-clear">
+            Mark all as read
+          </button>
+        }
+      </div>
+
+      <!-- Body -->
+      <div class="notify-body">
+
+        @if (loading) {
+          <div class="notify-loading">
+            Loading notifications...
+          </div>
+        }
+
+        @else if (notifications.length === 0) {
+          <div class="notify-empty">
+            <span class="notify-empty-icon">🔔</span>
+            <p>No notifications yet</p>
+          </div>
+        }
+
+        @else {
+          @for (notification of notifications; track notification.id) {
+
+            <div class="notify-item"
+                 [class.new]="!notification.read"
+                 [class]="getNotificationClass(notification.type)"
+                 (click)="markAsRead(notification, $event)">
+
+              <div class="notify-item-icon">
+                {{ getNotificationIcon(notification.type) }}
+              </div>
+
+              <div class="notify-item-content">
+                <p class="notify-text">
+                  {{ notification.message }}
+                </p>
+                <span class="notify-time">
+                  {{ getTimeAgo(notification.createdAt) }}
+                </span>
+              </div>
+
+              <button class="notify-remove"
+                      (click)="deleteNotification(notification.id, $event)"
+                      title="Delete notification">
+                ×
+              </button>
+
+            </div>
+
+          }
+        }
+
+      </div>
+
+    </div>
+
+  }
+
+</div>

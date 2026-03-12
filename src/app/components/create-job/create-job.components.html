@@ -1,0 +1,124 @@
+<div class="page-wrapper">
+  <div class="job-container">
+
+    <div class="header-section">
+      <h1>Post a Job</h1>
+      <p>Create an opportunity and find the perfect candidate.</p>
+    </div>
+
+    <div *ngIf="errorMessage" class="alert-box">
+      {{ errorMessage }}
+    </div>
+
+    <div class="job-card">
+      <form (ngSubmit)="onSubmit()" class="job-form">
+
+        <div class="form-group">
+          <label>Job Title *</label>
+          <input type="text"
+                 [(ngModel)]="formData.title"
+                 name="title"
+                 required />
+        </div>
+
+        <div class="form-group">
+          <label>Job Description *</label>
+          <textarea rows="5"
+                    [(ngModel)]="formData.description"
+                    name="description"
+                    required></textarea>
+        </div>
+
+        <div class="form-group">
+          <label>Required Skills *</label>
+          <input type="text"
+                 [(ngModel)]="formData.requiredSkills"
+                 name="requiredSkills"
+                 placeholder="Java, Spring Boot, MySQL"
+                 required />
+        </div>
+
+        <div class="grid-2">
+          <div class="form-group">
+            <label>Location *</label>
+            <input type="text"
+                   [(ngModel)]="formData.location"
+                   name="location"
+                   required />
+          </div>
+
+          <div class="form-group">
+            <label>Salary Range *</label>
+            <input type="text"
+                   [(ngModel)]="formData.salaryRange"
+                   name="salaryRange"
+                   placeholder="$80,000 - $120,000"
+                   required />
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="form-group">
+            <label>Job Type *</label>
+            <select [(ngModel)]="formData.jobType"
+                    name="jobType"
+                    required>
+              <option *ngFor="let type of jobTypes" [value]="type">
+                {{ type.replace('_', ' ') }}
+              </option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Experience (years) *</label>
+            <input type="number"
+                   [(ngModel)]="formData.experienceYears"
+                   name="experienceYears"
+                   min="0"
+                   required />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Education Requirement *</label>
+          <input type="text"
+                 [(ngModel)]="formData.educationRequirement"
+                 name="educationRequirement"
+                 placeholder="Bachelor's in Computer Science"
+                 required />
+        </div>
+
+        <div class="grid-2">
+          <div class="form-group">
+            <label>Application Deadline *</label>
+            <input type="date"
+                   [(ngModel)]="formData.applicationDeadline"
+                   name="applicationDeadline"
+                   required />
+          </div>
+
+          <div class="form-group">
+            <label>Number of Openings *</label>
+            <input type="number"
+                   [(ngModel)]="formData.numberOfOpenings"
+                   name="numberOfOpenings"
+                   min="1"
+                   required />
+          </div>
+        </div>
+
+        <div class="button-group">
+          <button type="submit" class="primary-btn" [disabled]="loading">
+            {{ loading ? 'Creating...' : 'Post Job' }}
+          </button>
+
+          <button type="button" (click)="cancel()" class="secondary-btn">
+            Cancel
+          </button>
+        </div>
+
+      </form>
+    </div>
+
+  </div>
+</div>

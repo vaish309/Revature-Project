@@ -1,0 +1,160 @@
+.page-wrapper {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f0f4ff, #fefefe);
+  padding: 50px 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.job-container {
+  width: 100%;
+  max-width: 950px;
+}
+
+.header-section {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.header-section h1 {
+  font-size: 36px;
+  font-weight: 700;
+  background: linear-gradient(90deg, #4f46e5, #f43f5e);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 8px;
+}
+
+.header-section p {
+  font-size: 16px;
+  color: #6b7280;
+}
+
+.job-card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 35px;
+  box-shadow: 0 15px 35px rgba(79, 70, 229, 0.08);
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.job-card::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 6px;
+  height: 100%;
+  background: linear-gradient(to bottom, #4f46e5, #f43f5e);
+  border-radius: 16px 0 0 16px;
+}
+
+.job-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 25px 60px rgba(79, 70, 229, 0.15);
+}
+
+.job-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1e293b;
+}
+
+input,
+textarea,
+select {
+  padding: 14px 16px;
+  border-radius: 10px;
+  border: 1px solid #d1d5db;
+  font-size: 14px;
+  transition: all 0.2s ease;
+  background: #f9fafb;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: #4f46e5;
+  background: #fff;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
+}
+
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.button-group {
+  display: flex;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.primary-btn {
+  background: linear-gradient(90deg, #4f46e5, #f43f5e);
+  color: #fff;
+  padding: 12px 28px;
+  border-radius: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.primary-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(244, 63, 94, 0.25);
+}
+
+.primary-btn:disabled {
+  background: #9bbce6;
+  cursor: not-allowed;
+}
+
+.secondary-btn {
+  background: #f3f4f6;
+  color: #374151;
+  padding: 12px 28px;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.secondary-btn:hover {
+  background: #e5e7eb;
+}
+
+.alert-box {
+  background: #fee2e2;
+  color: #991b1b;
+  padding: 12px 15px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  font-size: 14px;
+}
+
+@media (max-width: 768px) {
+  .grid-2 {
+    grid-template-columns: 1fr;
+  }
+
+  .job-card {
+    padding: 25px;
+  }
+}

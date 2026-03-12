@@ -1,0 +1,153 @@
+<div class="dashboard-wrapper">
+
+  <!-- HEADER -->
+  <div class="dashboard-top">
+    <div class="welcome-text">
+      <h1>Welcome Back 👋</h1>
+      <p>Track applications, explore jobs & manage your career journey.</p>
+    </div>
+  </div>
+
+  <!-- STATS ROW -->
+  <div class="stats-row">
+    <div class="stat-box">
+      <div class="stat-icon">📨</div>
+      <div>
+        <h2>{{ allApplications.length }}</h2>
+        <p>Applications</p>
+      </div>
+    </div>
+
+    <div class="stat-box">
+      <div class="stat-icon">⭐</div>
+      <div>
+        <h2>{{ allSavedJobs.length }}</h2>
+        <p>Saved Jobs</p>
+      </div>
+    </div>
+
+    <div class="stat-box">
+      <div class="stat-icon">🎯</div>
+      <div>
+        <h2>{{ getShortlistedCount() }}</h2>
+        <p>Shortlisted</p>
+      </div>
+    </div>
+
+    <div class="stat-box">
+      <div class="stat-icon">📄</div>
+      <div>
+        <h2>{{ resume ? '✓' : '✗' }}</h2>
+        <p>Resume</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN GRID -->
+  <div class="dashboard-main">
+
+    <!-- LEFT SECTION -->
+    <div class="left-section">
+
+      <div class="section-card">
+        <div class="section-title">
+          <h3>Recent Applications</h3>
+          <a routerLink="/jobseeker/applications">See All →</a>
+        </div>
+
+        @if (applications.length === 0) {
+          <div class="empty-box">
+            No applications yet.
+            <a routerLink="/jobs" class="primary-btn">Browse Jobs</a>
+          </div>
+        } @else {
+          @for (app of applications; track app.id) {
+            <div class="list-item">
+              <div>
+                <strong>{{ app.jobTitle }}</strong>
+                <p>{{ app.companyName }}</p>
+              </div>
+              <span class="status-badge"
+                [class]="'status-badge ' + getStatusClass(app.status)">
+                {{ formatStatus(app.status) }}
+              </span>
+            </div>
+          }
+        }
+      </div>
+
+      <div class="section-card">
+        <div class="section-title">
+          <h3>Saved Jobs</h3>
+          <a routerLink="/jobseeker/saved-jobs">See All →</a>
+        </div>
+
+        @if (savedJobs.length === 0) {
+          <div class="empty-box">
+            No saved jobs yet.
+            <a routerLink="/jobs" class="primary-btn">Browse Jobs</a>
+          </div>
+        } @else {
+          @for (job of savedJobs; track job.id) {
+            <div class="list-item">
+              <div>
+                <strong>{{ job.title }}</strong>
+                <p>{{ job.companyName }}</p>
+              </div>
+              <span class="job-meta">
+                {{ job.location }} • {{ formatJobType(job.jobType) }}
+              </span>
+            </div>
+          }
+        }
+      </div>
+
+    </div>
+
+    <!-- RIGHT SECTION -->
+    <div class="right-section">
+      <div class="quick-card">
+        <h3>Quick Actions</h3>
+
+        <a routerLink="/jobseeker/resume" class="action-box">
+          📝 Update Resume
+        </a>
+
+        <a routerLink="/jobs" class="action-box">
+          🔍 Browse Jobs
+        </a>
+
+        <a routerLink="/jobseeker/applications" class="action-box">
+          📋 My Applications
+        </a>
+
+        <a routerLink="/jobseeker/saved-jobs" class="action-box">
+          ⭐ Saved Jobs
+        </a>
+      </div>
+
+      <div class="quick-card" style="margin-top: 20px;">
+        <h3>Resume Status</h3>
+        @if (resume) {
+          <div class="resume-status-ok">
+            <span>✅ Resume Ready</span>
+            @if (resume.uploadedResumeFileName) {
+              <p class="resume-filename">📎 {{ resume.uploadedResumeFileName }}</p>
+            }
+            @if (resume.objective) {
+              <p class="resume-objective">{{ resume.objective.substring(0, 100) }}{{ resume.objective.length > 100 ? '...' : '' }}</p>
+            }
+            <a routerLink="/jobseeker/resume" class="action-box" style="margin-top:10px;">Update Resume</a>
+          </div>
+        } @else {
+          <div class="resume-status-missing">
+            <span>⚠️ No Resume Yet</span>
+            <p>Create your resume to apply for jobs.</p>
+            <a routerLink="/jobseeker/resume" class="action-box" style="margin-top:10px;">Create Resume</a>
+          </div>
+        }
+      </div>
+    </div>
+
+  </div>
+</div>

@@ -1,0 +1,102 @@
+<div class="register-wrapper">
+
+  <div class="register-container">
+
+    <!-- Left Accent Panel -->
+    <div class="info-panel">
+      <div class="brand">
+        <h2>RevHire</h2>
+        <p>Professional Talent Network</p>
+      </div>
+
+      <div class="benefits">
+        <div class="benefit">
+          <span>✔</span>
+          <p>Access verified employers</p>
+        </div>
+        <div class="benefit">
+          <span>✔</span>
+          <p>AI-powered job matching</p>
+        </div>
+        <div class="benefit">
+          <span>✔</span>
+          <p>Secure application tracking</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Form Section -->
+    <div class="form-panel">
+
+      <div class="form-header">
+        <h1>Create Account</h1>
+        <p>Start your professional journey today</p>
+      </div>
+
+      <div *ngIf="errorMessage" class="alert-box">
+        {{ errorMessage }}
+      </div>
+
+      <form (ngSubmit)="onSubmit()" class="form-grid">
+
+        <div class="input-group">
+          <label>Full Name</label>
+          <input type="text" name="name"
+                 [(ngModel)]="formData.name" required />
+        </div>
+
+        <div class="input-group">
+          <label>Email Address</label>
+          <input type="email" name="email"
+                 [(ngModel)]="formData.email" required />
+        </div>
+
+        <div class="input-group">
+          <label>Phone Number</label>
+          <input type="tel" name="phone"
+                 [(ngModel)]="formData.phone" required />
+        </div>
+
+        <div class="input-group">
+          <label>Password</label>
+          <input type="password" name="password"
+                 [(ngModel)]="formData.password" required />
+        </div>
+
+        <div class="input-group full-width">
+          <label>Location</label>
+          <input type="text" name="location"
+                 [(ngModel)]="formData.location" required />
+        </div>
+
+        <div class="input-group full-width">
+          <label>Employment Status</label>
+          <select name="currentEmploymentStatus"
+                  [(ngModel)]="formData.currentEmploymentStatus"
+                  required>
+            <option value="">Select status</option>
+            <option value="Employed">Employed</option>
+            <option value="Unemployed">Unemployed</option>
+            <option value="Student">Student</option>
+            <option value="Freelancer">Freelancer</option>
+          </select>
+        </div>
+
+        <button type="submit"
+                class="primary-btn"
+                [disabled]="loading">
+          {{ loading ? 'Creating Account...' : 'Register Now' }}
+        </button>
+
+        <div class="login-text">
+          Already registered?
+          <a routerLink="/login">Sign In</a>
+        </div>
+
+      </form>
+
+    </div>
+
+  </div>
+
+</div>

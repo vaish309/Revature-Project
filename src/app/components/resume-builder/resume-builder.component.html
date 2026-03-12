@@ -1,0 +1,130 @@
+<div class="resume-wrapper">
+
+  <div class="resume-header">
+    <h2>Build Your Professional Resume</h2>
+    <p>Complete each section to enhance your profile</p>
+  </div>
+
+  <div class="step-container">
+
+    <div class="step"
+         [class.active]="activeTab === 'objective'"
+         (click)="activeTab = 'objective'">
+      Objective
+    </div>
+
+    <div class="step"
+         [class.active]="activeTab === 'education'"
+         (click)="activeTab = 'education'">
+      Education
+    </div>
+
+    <div class="step"
+         [class.active]="activeTab === 'experience'"
+         (click)="activeTab = 'experience'">
+      Experience
+    </div>
+
+    <div class="step"
+         [class.active]="activeTab === 'skills'"
+         (click)="activeTab = 'skills'">
+      Skills
+    </div>
+
+    <div class="step"
+         [class.active]="activeTab === 'certifications'"
+         (click)="activeTab = 'certifications'">
+      Certifications
+    </div>
+
+    <div class="step"
+         [class.active]="activeTab === 'upload'"
+         (click)="activeTab = 'upload'">
+      Upload
+    </div>
+
+  </div>
+
+  <div class="resume-card">
+
+    <div *ngIf="message"
+         class="alert"
+         [ngClass]="messageType === 'success' ? 'success' : 'error'">
+      {{ message }}
+    </div>
+
+    <div *ngIf="activeTab === 'objective'">
+      <h3>Career Objective</h3>
+      <textarea class="form-control"
+                rows="4"
+                [(ngModel)]="objective"></textarea>
+      <button class="btn-main"
+              (click)="saveObjective()">Save</button>
+    </div>
+
+    <div *ngIf="activeTab === 'education'">
+      <h3>Add Education</h3>
+      <input class="form-control"
+             placeholder="Institution"
+             [(ngModel)]="educationForm.institution">
+      <input class="form-control"
+             placeholder="Degree"
+             [(ngModel)]="educationForm.degree">
+      <button class="btn-main"
+              (click)="addEducation()">Add</button>
+    </div>
+
+    <div *ngIf="activeTab === 'experience'">
+      <h3>Add Experience</h3>
+      <input class="form-control"
+             placeholder="Company"
+             [(ngModel)]="experienceForm.company">
+      <input class="form-control"
+             placeholder="Position"
+             [(ngModel)]="experienceForm.position">
+      <button class="btn-main"
+              (click)="addExperience()">Add</button>
+    </div>
+
+    <div *ngIf="activeTab === 'skills'">
+      <h3>Add Skill</h3>
+      <input class="form-control"
+             placeholder="Skill Name"
+             [(ngModel)]="skillForm.skillName">
+      <button class="btn-main"
+              (click)="addSkill()">Add</button>
+    </div>
+
+    <div *ngIf="activeTab === 'certifications'">
+      <h3>Add Certification</h3>
+      <input class="form-control"
+             placeholder="Certification Name"
+             [(ngModel)]="certificationForm.certificationName">
+      <input class="form-control"
+             placeholder="Issuing Organization"
+             [(ngModel)]="certificationForm.issuingOrganization">
+      <button class="btn-main"
+              (click)="addCertification()">Add</button>
+    </div>
+
+    <div *ngIf="activeTab === 'upload'">
+      <h3>Upload Resume</h3>
+      <div class="upload-area">
+        <input id="resumeFile"
+               type="file"
+               (change)="onFileSelected($event)">
+      </div>
+
+      <div *ngIf="uploadError" class="error-text">
+        {{ uploadError }}
+      </div>
+
+      <button class="btn-main"
+              (click)="uploadResumeFile()"
+              [disabled]="!selectedFile">
+        Upload
+      </button>
+    </div>
+
+  </div>
+</div>

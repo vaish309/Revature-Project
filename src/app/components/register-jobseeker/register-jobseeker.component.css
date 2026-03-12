@@ -1,0 +1,195 @@
+/* ===== Layout ===== */
+.register-wrapper {
+  min-height: 100vh;
+  background: #eef1f5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 20px;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.register-container {
+  display: flex;
+  width: 100%;
+  max-width: 1100px;
+  background: #ffffff;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.08);
+}
+
+/* ===== Left Panel ===== */
+.info-panel {
+  width: 35%;
+  background: #1f2937;
+  color: white;
+  padding: 50px 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.brand h2 {
+  font-size: 26px;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.brand p {
+  font-size: 14px;
+  opacity: 0.7;
+}
+
+.benefits {
+  margin-top: 60px;
+}
+
+.benefit {
+  display: flex;
+  align-items: center;
+  margin-bottom: 18px;
+  font-size: 14px;
+}
+
+.benefit span {
+  margin-right: 10px;
+  color: #10b981;
+}
+
+/* ===== Form Panel ===== */
+.form-panel {
+  width: 65%;
+  padding: 60px 50px;
+}
+
+.form-header h1 {
+  font-size: 28px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #111827;
+}
+
+.form-header p {
+  font-size: 14px;
+  color: #6b7280;
+  margin-bottom: 30px;
+}
+
+/* ===== Form Grid ===== */
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.full-width {
+  grid-column: span 2;
+}
+
+label {
+  font-size: 13px;
+  font-weight: 500;
+  margin-bottom: 6px;
+  color: #374151;
+}
+
+input,
+select {
+  padding: 11px 12px;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  font-size: 14px;
+  background: #f9fafb;
+  transition: 0.2s ease;
+}
+
+input:focus,
+select:focus {
+  outline: none;
+  border-color: #2563eb;
+  background: #ffffff;
+  box-shadow: 0 0 0 3px rgba(37,99,235,0.15);
+}
+
+/* ===== Button ===== */
+.primary-btn {
+  grid-column: span 2;
+  margin-top: 10px;
+  padding: 12px;
+  background: #111827;
+  color: white;
+  font-weight: 500;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.primary-btn:hover {
+  background: #000000;
+}
+
+.primary-btn:disabled {
+  background: #9ca3af;
+  cursor: not-allowed;
+}
+
+/* ===== Login Text ===== */
+.login-text {
+  grid-column: span 2;
+  text-align: center;
+  margin-top: 16px;
+  font-size: 14px;
+}
+
+.login-text a {
+  color: #2563eb;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.login-text a:hover {
+  text-decoration: underline;
+}
+
+/* ===== Alert ===== */
+.alert-box {
+  background: #fee2e2;
+  color: #b91c1c;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 14px;
+  margin-bottom: 15px;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 900px) {
+  .register-container {
+    flex-direction: column;
+  }
+
+  .info-panel {
+    width: 100%;
+    text-align: center;
+  }
+
+  .form-panel {
+    width: 100%;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .full-width,
+  .primary-btn,
+  .login-text {
+    grid-column: span 1;
+  }
+}
