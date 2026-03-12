@@ -1,0 +1,164 @@
+/* ===== Notification Wrapper ===== */
+.notify-wrapper {
+  position: relative;
+}
+
+/* Bell Button */
+.notify-trigger {
+  position: relative;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 22px;
+  color: #ffffff;
+  padding: 6px;
+}
+
+/* Badge */
+.notify-count {
+  position: absolute;
+  top: -4px;
+  right: -6px;
+  background: #ef4444;
+  color: white;
+  font-size: 10px;
+  padding: 3px 6px;
+  border-radius: 50%;
+  font-weight: 600;
+}
+
+/* ===== Dropdown Box ===== */
+.notify-panel {
+  position: absolute;
+  top: 45px;
+  right: 0;
+  width: 360px;
+  max-height: 420px;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.18);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: fadeSlide 0.2s ease-in-out;
+  z-index: 2000;
+}
+
+/* Small Arrow */
+.notify-panel::before {
+  content: "";
+  position: absolute;
+  top: -8px;
+  right: 18px;
+  width: 15px;
+  height: 15px;
+  background: white;
+  transform: rotate(45deg);
+  box-shadow: -2px -2px 5px rgba(0,0,0,0.05);
+}
+
+/* Animation */
+@keyframes fadeSlide {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Header */
+.notify-header {
+  padding: 14px 18px;
+  border-bottom: 1px solid #f1f5f9;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.notify-header h3 {
+  font-size: 15px;
+  margin: 0;
+  color: #0f172a;
+}
+
+.notify-clear {
+  font-size: 12px;
+  border: none;
+  background: none;
+  color: #2563eb;
+  cursor: pointer;
+}
+
+/* Body */
+.notify-body {
+  overflow-y: auto;
+  max-height: 320px;
+}
+
+/* Notification Item */
+.notify-item {
+  display: flex;
+  gap: 10px;
+  padding: 14px 16px;
+  border-bottom: 1px solid #f1f5f9;
+  transition: background 0.2s;
+  cursor: pointer;
+}
+
+.notify-item:hover {
+  background: #f8fafc;
+}
+
+.notify-item.new {
+  background: #eef2ff;
+}
+
+/* Content */
+.notify-item-content {
+  flex: 1;
+}
+
+.notify-text {
+  font-size: 13px;
+  margin: 0;
+  color: #1e293b;
+}
+
+.notify-time {
+  font-size: 11px;
+  color: #64748b;
+}
+
+/* Delete */
+.notify-remove {
+  background: none;
+  border: none;
+  font-size: 16px;
+  color: #94a3b8;
+  cursor: pointer;
+}
+
+.notify-remove:hover {
+  color: #ef4444;
+}
+
+/* Footer */
+.notify-footer {
+  padding: 12px;
+  text-align: center;
+  border-top: 1px solid #f1f5f9;
+}
+
+.notify-footer a {
+  font-size: 13px;
+  color: #2563eb;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.notify-footer a:hover {
+  text-decoration: underline;
+}

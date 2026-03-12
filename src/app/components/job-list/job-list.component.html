@@ -1,0 +1,83 @@
+<div class="job-list-container">
+  
+  <!-- ===== Search Section at Top ===== -->
+  <div class="search-section">
+    <h2>Find Your Next Job</h2>
+    <div class="search-form">
+      <div class="form-group">
+        <label for="title">Job Title</label>
+        <input type="text" id="title" [(ngModel)]="searchParams.title" placeholder="e.g. Software Engineer" />
+      </div>
+      <div class="form-group">
+        <label for="location">Location</label>
+        <input type="text" id="location" [(ngModel)]="searchParams.location" placeholder="e.g. New York" />
+      </div>
+      <div class="form-group">
+        <label for="jobType">Job Type</label>
+        <select id="jobType" [(ngModel)]="searchParams.jobType">
+          <option [ngValue]="undefined">All Types</option>
+          @for (type of jobTypes; track type) {
+            <option [value]="type">{{ type.replace('_', ' ') }}</option>
+          }
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="experience">Max Experience (years)</label>
+        <input type="number" id="experience" [(ngModel)]="searchParams.experienceYears" min="0" />
+      </div>
+    </div>
+    <div class="search-buttons">
+      <button (click)="onSearch()" class="btn btn-primary">Search</button>
+      <button (click)="clearFilters()" class="btn btn-secondary">Clear Filters</button>
+    </div>
+  </div>
+
+  <!-- ===== Loading / No Jobs ===== -->
+  @if (loading) {
+    <div class="loading">Loading jobs...</div>
+  } @else if (jobs.length === 0) {
+    <div class="no-jobs">
+      <h3>No jobs found</h3>
+      <p>Try adjusting your search filters</p>
+    </div>
+  } @else {
+    <!-- ===== Jobs List ===== -->
+    <div class="job-list">
+      @for (job of jobs; track job.id) {
+        <div class="job-card">
+          <div class="job-header">
+            <span class="job-type-badge">{{ job.jobType.replace('_', ' ') }}</span>
+            <div class="job-meta">
+              <span>📍 {{ job.location }}</span>
+              <span>💰 {{ job.salaryRange }}</span>
+              <span>📅 {{ job.experienceYears }} yrs</span>
+            </div>
+          </div>
+
+          <div class="job-info">
+            <h3>{{ job.title }}</h3>
+            <p class="company-name">{{ job.companyName }}</p>
+            <p class="job-description">{{ job.description.substring(0, 200) }}...</p>
+          </div>
+
+          <div class="job-actions">
+            <span class="badge badge-info">{{ job.applicationCount }} applications</span>
+            <a [routerLink]="['/jobs', job.id]" class="btn btn-primary">View Details</a>
+            @if (authService.isJobSeeker()) {
+              <button
+                (click)="toggleSaveJob(job.id)"
+                class="btn"
+                [class.btn-save-active]="isJobSaved(job.id)"
+                [class.btn-save]="!isJobSaved(job.id)">
+                {{ isJobSaved(job.id) ? '⭐ Saved' : '☆ Save Job' }}
+              </button>
+              @if (saveMessages[job.id]) {
+                <span class="save-msg">{{ saveMessages[job.id] }}</span>
+              }
+            }
+          </div>
+        </div>
+      }
+    </div>
+  }
+</div>

@@ -1,0 +1,295 @@
+<div class="container" style="padding: 40px 0;">
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
+    <h1>Job Applications</h1>
+    <button (click)="goBack()" class="btn btn-secondary">Back to Dashboard</button>
+  </div>
+  
+  @if (loading) {
+    <div class="loading">Loading applications...</div>
+  } @else if (applications.length === 0) {
+    <div class="card" style="text-align: center; padding: 40px;">
+      <p>No applications received yet</p>
+    </div>
+  } @else {
+    @for (app of applications; track app.id) {
+      <div class="card application-card">
+        <div class="application-header">
+          <div>
+            <h3 style="color: #007bff; margin-bottom: 10px;">{{ app.applicantName }}</h3>
+            <p><strong>Email:</strong> {{ app.applicantEmail }}</p>
+            <p><strong>Applied:</strong> {{ app.appliedAt | date:'medium' }}</p>
+          </div>
+          <div>
+            <span [class]="'badge ' + getStatusClass(app.status)">{{ app.status.replace('_', ' ') }}</span>
+          </div>
+        </div>
+        
+        @if (app.resumeTitle) {
+          <div style="margin: 15px 0; padding: 10px; background: #f8f9fa; border-radius: 5px;">
+            <strong>Resume:</strong> {{ app.resumeTitle }}
+          </div>
+        }
+        
+        @if (app.coverLetter) {
+          <div style="margin: 15px 0;">
+            <strong>Cover Letter:</strong>
+            <p style="margin-top: 5px; padding: 15px; background: #f8f9fa; border-radius: 5px;">{{ app.coverLetter }}</p>
+          </div>
+        } @else {
+          <div style="margin: 15px 0; padding: 10px; background: #f8f9fa; border-radius: 5px; color: #6c757d; font-style: italic;">
+            No cover letter provided
+          </div>
+        }
+        
+        @if (app.employerComments) {
+          <div style="margin: 15px 0; padding: 15px; background: #fff3cd; border-left: 4px solid #ffc107; border-radius: 5px;">
+            <strong>Your Comments:</strong>
+            <p style="margin-top: 5px;">{{ app.employerComments }}</p>
+          </div>
+        }
+        
+        <div style="display: flex; gap: 10px; margin-top: 15px; flex-wrap: wrap;">
+          <button (click)="viewApplicationDetails(app.id)" class="btn btn-primary">
+            View Full Profile & Resume
+          </button>
+          <button (click)="updateStatus(app.id, 'UNDER_REVIEW')" class="btn btn-secondary" [disabled]="app.status === 'UNDER_REVIEW'">
+            Mark Under Review
+          </button>
+          <button (click)="updateStatus(app.id, 'SHORTLISTED')" class="btn btn-success" [disabled]="app.status === 'SHORTLISTED'">
+            Shortlist
+          </button>
+          <button (click)="updateStatus(app.id, 'REJECTED')" class="btn btn-danger" [disabled]="app.status === 'REJECTED'">
+            Reject
+          </button>
+        </div>
+      </div>
+    }
+  }
+</div>
+
+<!-- Comment Modal -->
+@if (showCommentModal) {
+  <div class="modal-overlay" (click)="closeCommentModal()">
+    <div class="modal-content comment-modal" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h2>{{ getStatusLabel(selectedStatus!) }}</h2>
+        <button (click)="closeCommentModal()" class="close-btn">×</button>
+      </div>
+      
+      <div class="modal-body">
+        <p class="modal-description">
+          @if (selectedStatus === 'SHORTLISTED') {
+            Add a comment to let the candidate know why they were shortlisted (required).
+          } @else if (selectedStatus === 'REJECTED') {
+            Add a comment to provide feedback to the candidate (required).
+          } @else {
+            Add an optional comment about this status change.
+          }
+        </p>
+        
+        <div class="form-group">
+          <label for="comment">
+            Comment 
+            @if (selectedStatus === 'SHORTLISTED' || selectedStatus === 'REJECTED') {
+              <span class="required">*</span>
+            }
+          </label>
+          <textarea
+            id="comment"
+            class="form-control"
+            [(ngModel)]="commentText"
+            rows="5"
+            [placeholder]="selectedStatus === 'SHORTLISTED' ? 'e.g., Your skills and experience match our requirements perfectly...' : selectedStatus === 'REJECTED' ? 'e.g., Thank you for applying. Unfortunately, we are looking for candidates with more experience in...' : 'Add your comments here...'"
+          ></textarea>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button (click)="submitStatusUpdate()" class="btn btn-primary">
+          Confirm & Update Status
+        </button>
+        <button (click)="closeCommentModal()" class="btn btn-secondary">
+          Cancel
+        </button>
+      </div>
+    </div>
+  </div>
+}
+
+<!-- Application Details Modal -->
+@if (showDetailsModal && selectedApplication) {
+  <div class="modal-overlay" (click)="closeDetailsModal()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h2>Applicant Profile</h2>
+        <button (click)="closeDetailsModal()" class="close-btn">×</button>
+      </div>
+      
+      <div class="modal-body">
+        <!-- Applicant Info -->
+        <div class="profile-section">
+          <h3>Contact Information</h3>
+          <p><strong>Name:</strong> {{ selectedApplication.applicant.name }}</p>
+          <p><strong>Email:</strong> {{ selectedApplication.applicant.email }}</p>
+          @if (selectedApplication.applicant.phone) {
+            <p><strong>Phone:</strong> {{ selectedApplication.applicant.phone }}</p>
+          }
+          @if (selectedApplication.applicant.location) {
+            <p><strong>Location:</strong> {{ selectedApplication.applicant.location }}</p>
+          }
+          @if (selectedApplication.applicant.currentEmploymentStatus) {
+            <p><strong>Current Status:</strong> {{ selectedApplication.applicant.currentEmploymentStatus }}</p>
+          }
+        </div>
+
+        <!-- Cover Letter -->
+        @if (selectedApplication.coverLetter) {
+          <div class="profile-section">
+            <h3>Cover Letter</h3>
+            <p class="cover-letter-text">{{ selectedApplication.coverLetter }}</p>
+          </div>
+        } @else {
+          <div class="profile-section">
+            <h3>Cover Letter</h3>
+            <p class="cover-letter-text" style="color: #6c757d; font-style: italic;">No cover letter provided</p>
+          </div>
+        }
+
+        <!-- Resume -->
+        @if (selectedApplication.resume) {
+          <div class="profile-section">
+            <h3>Resume</h3>
+            
+            @if (selectedApplication.resume.uploadedResumeFileName) {
+              <div class="uploaded-resume">
+                <p>📎 Uploaded Resume: {{ selectedApplication.resume.uploadedResumeFileName }}</p>
+                <button (click)="downloadResume()" class="btn btn-primary">Download Resume</button>
+              </div>
+            }
+            
+            <!-- Textual Resume -->
+            @if (selectedApplication.resume.objective) {
+              <div class="resume-section">
+                <h4>Career Objective</h4>
+                <p>{{ selectedApplication.resume.objective }}</p>
+              </div>
+            }
+
+            @if (selectedApplication.resume.education && selectedApplication.resume.education.length > 0) {
+              <div class="resume-section">
+                <h4>🎓 Education</h4>
+                @for (edu of selectedApplication.resume.education; track edu.id) {
+                  <div class="resume-item">
+                    <strong>{{ edu.degree }}@if (edu.fieldOfStudy) { in {{ edu.fieldOfStudy }} }</strong>
+                    <p>{{ edu.institution }}</p>
+                    @if (edu.startDate || edu.endDate) {
+                      <p class="date-range">{{ edu.startDate }} - {{ edu.endDate }}</p>
+                    }
+                    @if (edu.gpa) {
+                      <p>GPA: {{ edu.gpa }}</p>
+                    }
+                    @if (edu.description) {
+                      <p>{{ edu.description }}</p>
+                    }
+                  </div>
+                }
+              </div>
+            }
+
+            @if (selectedApplication.resume.experience && selectedApplication.resume.experience.length > 0) {
+              <div class="resume-section">
+                <h4>💼 Experience</h4>
+                @for (exp of selectedApplication.resume.experience; track exp.id) {
+                  <div class="resume-item">
+                    <strong>{{ exp.position }}</strong>
+                    <p>{{ exp.company }}@if (exp.location) { • {{ exp.location }} }</p>
+                    @if (exp.startDate || exp.endDate) {
+                      <p class="date-range">
+                        {{ exp.startDate }} - 
+                        {{ exp.currentlyWorking ? 'Present' : exp.endDate }}
+                      </p>
+                    }
+                    @if (exp.description) {
+                      <p>{{ exp.description }}</p>
+                    }
+                  </div>
+                }
+              </div>
+            }
+
+            @if (selectedApplication.resume.skills && selectedApplication.resume.skills.length > 0) {
+              <div class="resume-section">
+                <h4>🛠️ Skills</h4>
+                <div class="skills-grid">
+                  @for (skill of selectedApplication.resume.skills; track skill.id) {
+                    <span class="skill-badge">
+                      {{ skill.skillName }} ({{ skill.proficiencyLevel }})
+                    </span>
+                  }
+                </div>
+              </div>
+            }
+
+            @if (selectedApplication.resume.certifications && selectedApplication.resume.certifications.length > 0) {
+              <div class="resume-section">
+                <h4>🏆 Certifications</h4>
+                @for (cert of selectedApplication.resume.certifications; track cert.id) {
+                  <div class="resume-item">
+                    <strong>{{ cert.certificationName }}</strong>
+                    <p>{{ cert.issuingOrganization }}</p>
+                    @if (cert.issueDate || cert.expiryDate) {
+                      <p class="date-range">
+                        @if (cert.issueDate) { Issued: {{ cert.issueDate }} }
+                        @if (cert.expiryDate) { • Expires: {{ cert.expiryDate }} }
+                      </p>
+                    }
+                    @if (cert.credentialId) {
+                      <p><strong>Credential ID:</strong> {{ cert.credentialId }}</p>
+                    }
+                    @if (cert.credentialUrl) {
+                      <p><a [href]="cert.credentialUrl" target="_blank">View Credential →</a></p>
+                    }
+                  </div>
+                }
+              </div>
+            }
+          </div>
+        } @else {
+          <div class="profile-section">
+            <h3>Resume</h3>
+            <p style="color: #6c757d; font-style: italic;">No resume available</p>
+          </div>
+        }
+
+        <!-- Application Status -->
+        <div class="profile-section">
+          <h3>Application Status</h3>
+          <p>
+            <span [class]="'badge ' + getStatusClass(selectedApplication.status)">
+              {{ selectedApplication.status.replace('_', ' ') }}
+            </span>
+          </p>
+          <p><strong>Applied:</strong> {{ selectedApplication.appliedAt | date:'medium' }}</p>
+          @if (selectedApplication.employerComments) {
+            <div style="margin-top: 10px; padding: 15px; background: #fff3cd; border-left: 4px solid #ffc107; border-radius: 5px;">
+              <strong>Your Comments:</strong>
+              <p style="margin-top: 5px;">{{ selectedApplication.employerComments }}</p>
+            </div>
+          }
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button (click)="updateStatus(selectedApplication.id, 'UNDER_REVIEW')" class="btn btn-secondary">
+          Mark Under Review
+        </button>
+        <button (click)="updateStatus(selectedApplication.id, 'SHORTLISTED')" class="btn btn-success">
+          Shortlist
+        </button>
+        <button (click)="updateStatus(selectedApplication.id, 'REJECTED')" class="btn btn-danger">
+          Reject
+        </button>
+      </div>
+    </div>
+  </div>
+}

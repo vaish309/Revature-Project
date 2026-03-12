@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RevHire - Job Portal</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            transition: opacity 0.3s;
+        }
+        
+        .nav-links a:hover {
+            opacity: 0.8;
+        }
+        
+        .hero {
+            text-align: center;
+            padding: 4rem 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background: white;
+            color: #667eea;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: transform 0.3s;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+        
+        .features {
+            padding: 4rem 0;
+            background: #f8f9fa;
+        }
+        
+        .features h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+        }
+        
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .feature-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .feature-card h3 {
+            color: #667eea;
+            margin-bottom: 1rem;
+        }
+        
+        .api-section {
+            padding: 4rem 0;
+        }
+        
+        .api-section h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .api-info {
+            background: #f8f9fa;
+            padding: 2rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+        }
+        
+        .endpoint {
+            background: white;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-left: 4px solid #667eea;
+            border-radius: 5px;
+        }
+        
+        .method {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 3px;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        
+        .method.post { background: #28a745; color: white; }
+        .method.get { background: #007bff; color: white; }
+        .method.put { background: #ffc107; color: black; }
+        .method.delete { background: #dc3545; color: white; }
+        .method.patch { background: #17a2b8; color: white; }
+        
+        footer {
+            background: #333;
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 4rem;
+        }
+        
+        code {
+            background: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">RevHire</div>
+                <ul class="nav-links">
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#api">API Docs</a></li>
+                    <li><a href="#about">About</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <h1>Welcome to RevHire</h1>
+            <p>Connecting Job Seekers with Employers</p>
+            <a href="#api" class="btn">Explore API</a>
+        </div>
+    </section>
+
+    <section id="features" class="features">
+        <div class="container">
+            <h2>Features</h2>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <h3>🔍 Advanced Job Search</h3>
+                    <p>Search jobs with multiple filters including location, experience, salary range, and job type.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>📝 Resume Management</h3>
+                    <p>Create textual resumes and upload formatted documents (PDF/DOCX) up to 2MB.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>🚀 One-Click Apply</h3>
+                    <p>Apply to jobs instantly with your saved resume and optional cover letter.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>📊 Application Tracking</h3>
+                    <p>Track your application status in real-time with detailed updates.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>🏢 Employer Dashboard</h3>
+                    <p>Manage job postings, view applicants, and track hiring statistics.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>🔔 Notifications</h3>
+                    <p>Receive in-app notifications for application updates and job recommendations.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="api" class="api-section">
+        <div class="container">
+            <h2>API Documentation</h2>
+            
+            <div class="api-info">
+                <h3>Base URL</h3>
+                <code>http://localhost:8080/api</code>
+                
+                <h3 style="margin-top: 2rem;">Authentication</h3>
+                <p>Include JWT token in Authorization header:</p>
+                <code>Authorization: Bearer &lt;your-jwt-token&gt;</code>
+            </div>
+
+            <h3>Authentication Endpoints</h3>
+            <div class="endpoint">
+                <span class="method post">POST</span>
+                <code>/auth/register/jobseeker</code>
+                <p>Register as a job seeker</p>
+            </div>
+            <div class="endpoint">
+                <span class="method post">POST</span>
+                <code>/auth/register/employer</code>
+                <p>Register as an employer</p>
+            </div>
+            <div class="endpoint">
+                <span class="method post">POST</span>
+                <code>/auth/login</code>
+                <p>Login to get JWT token</p>
+            </div>
+
+            <h3>Job Endpoints</h3>
+            <div class="endpoint">
+                <span class="method get">GET</span>
+                <code>/jobs/search?title=...&location=...</code>
+                <p>Search jobs with filters</p>
+            </div>
+            <div class="endpoint">
+                <span class="method get">GET</span>
+                <code>/jobs/active</code>
+                <p>Get all active jobs</p>
+            </div>
+            <div class="endpoint">
+                <span class="method post">POST</span>
+                <code>/jobs</code>
+                <p>Create a new job (Employer only)</p>
+            </div>
+
+            <h3>Application Endpoints</h3>
+            <div class="endpoint">
+                <span class="method post">POST</span>
+                <code>/applications</code>
+                <p>Apply for a job</p>
+            </div>
+            <div class="endpoint">
+                <span class="method get">GET</span>
+                <code>/applications/my-applications</code>
+                <p>Get your applications</p>
+            </div>
+            <div class="endpoint">
+                <span class="method patch">PATCH</span>
+                <code>/applications/{id}/status</code>
+                <p>Update application status (Employer only)</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" style="padding: 4rem 0; background: #f8f9fa;">
+        <div class="container">
+            <h2 style="text-align: center; margin-bottom: 2rem;">About RevHire</h2>
+            <p style="text-align: center; max-width: 800px; margin: 0 auto;">
+                RevHire is a comprehensive job portal application built with Spring Boot, MySQL, and JWT authentication. 
+                It provides a complete solution for job seekers to find opportunities and employers to discover talent.
+            </p>
+            <div style="text-align: center; margin-top: 2rem;">
+                <p><strong>Technology Stack:</strong></p>
+                <p>Spring Boot 4.0.2 | Java 17 | MySQL 8.0 | JWT | Log4j2 | JUnit 5</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 RevHire. All rights reserved.</p>
+            <p>Built with Spring Boot and MySQL</p>
+        </div>
+    </footer>
+</body>
+</html>

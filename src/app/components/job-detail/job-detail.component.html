@@ -1,0 +1,80 @@
+<div class="job-detail-container" *ngIf="!loading && job; else loadingOrError">
+  
+  <div class="job-header card">
+    <h1>{{ job.title }}</h1>
+    <div class="company-name">{{ job.companyName }}</div>
+
+    <div class="job-meta">
+      <div class="meta-item badge-meta">
+        <span class="meta-label">Location</span>
+        <span class="meta-value">📍 {{ job.location }}</span>
+      </div>
+      <div class="meta-item badge-meta">
+        <span class="meta-label">Job Type</span>
+        <span class="meta-value">💼 {{ job.jobType.replace('_', ' ') }}</span>
+      </div>
+      <div class="meta-item badge-meta">
+        <span class="meta-label">Experience</span>
+        <span class="meta-value">⏱ {{ job.experienceYears }} yrs</span>
+      </div>
+      <div class="meta-item badge-meta">
+        <span class="meta-label">Salary</span>
+        <span class="meta-value">💰 {{ job.salaryRange }}</span>
+      </div>
+      <div class="meta-item badge-meta">
+        <span class="meta-label">Applications</span>
+        <span class="meta-value">📝 {{ job.applicationCount || 0 }}</span>
+      </div>
+    </div>
+
+    <div class="job-details">
+      <h2>Job Description</h2>
+      <p>{{ job.description }}</p>
+
+      <div class="action-buttons">
+        <button *ngIf="authService.isJobSeeker()" class="apply-btn" (click)="toggleApplyForm()">
+          {{ showApplyForm ? 'Cancel' : 'Apply Now' }}
+        </button>
+        <button *ngIf="authService.isJobSeeker()" class="save-job-btn" [class.saved]="isJobSaved" (click)="toggleSaveJob()">
+          {{ isJobSaved ? '⭐ Saved' : '☆ Save Job' }}
+        </button>
+        <span *ngIf="saveMessage" class="save-msg">{{ saveMessage }}</span>
+      </div>
+
+      <div *ngIf="successMessage" class="msg-success">✅ {{ successMessage }}</div>
+
+      <!-- Apply Form — Resume Upload Only -->
+      <div *ngIf="showApplyForm" class="apply-form">
+        <h3 class="apply-form-title">📎 Upload Resume to Apply</h3>
+        <p class="apply-form-sub">Accepted: PDF or DOCX, max 2MB</p>
+
+        <div class="upload-box">
+          <input id="applyResumeFile" type="file" accept=".pdf,.docx" (change)="onResumeFileSelected($event)">
+          <label for="applyResumeFile" class="upload-label">
+            {{ selectedResumeFile ? '✅ ' + selectedResumeFile.name : '📂 Click to choose file' }}
+          </label>
+        </div>
+
+        <div *ngIf="resumeUploadError" class="msg-error">{{ resumeUploadError }}</div>
+        <div *ngIf="errorMessage" class="msg-error">{{ errorMessage }}</div>
+
+        <button class="apply-btn apply-btn-success" [disabled]="applying || !selectedResumeFile" (click)="onApply()">
+          {{ applying ? '⏳ Submitting...' : 'Submit Application' }}
+        </button>
+      </div>
+    </div>
+
+    <div class="job-details mt-4">
+      <h2>Required Skills</h2>
+      <p>{{ job.requiredSkills }}</p>
+
+      <h2>Application Deadline</h2>
+      <p>{{ job.applicationDeadline | date:'mediumDate' }}</p>
+    </div>
+  </div>
+</div>
+
+<ng-template #loadingOrError>
+  <div *ngIf="loading" class="text-center p-4">Loading job details...</div>
+  <div *ngIf="!loading && !job" class="text-center p-4 text-danger">Job not found or an error occurred</div>
+</ng-template>
